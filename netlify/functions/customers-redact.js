@@ -39,9 +39,6 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // For now, we'll accept the webhook since FloatVid doesn't store customer data
-    // In a real implementation, you'd verify the HMAC signature here
-    
     // Parse the webhook payload
     let payload;
     try {
@@ -56,15 +53,16 @@ exports.handler = async (event, context) => {
       };
     }
 
-    console.log('Customer data request received:', payload);
+    console.log('Customer redact request received:', payload);
 
-    // FloatVid response: We don't store customer data
+    // FloatVid response: We don't store customer data to redact
     const response = {
-      message: 'Customer data request processed successfully',
+      message: 'Customer data redaction processed successfully',
       app: 'FloatVid',
-      response: 'No personal customer data is stored by FloatVid. FloatVid only stores theme customization settings (video URLs, colors, fonts, positioning) which contain no personal information.',
+      response: 'No personal customer data to redact. FloatVid does not store any personal customer information that requires deletion.',
       shop_id: payload.shop_id,
       shop_domain: payload.shop_domain,
+      customer_id: payload.customer?.id,
       timestamp: new Date().toISOString()
     };
 
@@ -77,7 +75,7 @@ exports.handler = async (event, context) => {
     };
 
   } catch (error) {
-    console.error('Error processing customer data request:', error);
+    console.error('Error processing customer redact request:', error);
     
     return {
       statusCode: 500,
