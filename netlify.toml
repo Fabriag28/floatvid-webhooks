@@ -27,5 +27,3 @@
   to = "/.netlify/functions/scopes-update"
   status = 200
 
-[context.production.environment]
-  SHOPIFY_WEBHOOK_SECRET = "your-webhook-secret-here"
