@@ -1,0 +1,18 @@
+{
+  "name": "floatvid-webhooks",
+  "version": "1.0.0",
+  "description": "Webhook endpoints for FloatVid Shopify app",
+  "main": "index.js",
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "echo 'No build step required'",
+    "test": "echo 'No tests specified'"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "netlify-cli": "^17.0.0"
+  },
+  "keywords": ["shopify", "webhooks", "floatvid"],
+  "author": "AGX Apps",
+  "license": "MIT"
+}
