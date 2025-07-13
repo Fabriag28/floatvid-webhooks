@@ -1,5 +1,34 @@
 const crypto = require('crypto');
 
+// You'll need to set this in Netlify environment variables
+const SHOPIFY_WEBHOOK_SECRET = process.env.SHOPIFY_WEBHOOK_SECRET;
+
+function verifyShopifyWebhook(data, hmacHeader) {
+  if (!SHOPIFY_WEBHOOK_SECRET) {
+    console.error('SHOPIFY_WEBHOOK_SECRET not configured');
+    return false;
+  }
+  
+  if (!hmacHeader) {
+    return false;
+  }
+
+  const calculatedHmac = crypto
+    .createHmac('sha256', SHOPIFY_WEBHOOK_SECRET)
+    .update(data, 'utf8')
+    .digest('base64');
+
+  try {
+    return crypto.timingSafeEqual(
+      Buffer.from(calculatedHmac),
+      Buffer.from(hmacHeader)
+    );
+  } catch (error) {
+    console.error('HMAC comparison failed:', error);
+    return false;
+  }
+}
+
 exports.handler = async (event, context) => {
   // Only allow POST requests for webhooks
   if (event.httpMethod !== 'POST') {
@@ -28,20 +57,20 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // If HMAC header is missing or invalid, return 401
-    if (!hmacHeader) {
+    // Verify HMAC signature - RETURN 401 if invalid
+    const isValidHmac = verifyShopifyWebhook(event.body, hmacHeader);
+    
+    if (!isValidHmac) {
+      console.log('Invalid HMAC signature - returning 401');
       return {
         statusCode: 401,
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ error: 'Unauthorized - Missing HMAC' }),
+        body: JSON.stringify({ error: 'Unauthorized - Invalid HMAC signature' }),
       };
     }
 
-    // For now, we'll accept the webhook since FloatVid doesn't store customer data
-    // In a real implementation, you'd verify the HMAC signature here
-    
     // Parse the webhook payload
     let payload;
     try {
@@ -56,7 +85,7 @@ exports.handler = async (event, context) => {
       };
     }
 
-    console.log('Customer data request received:', payload);
+    console.log('Valid customer data request received:', payload);
 
     // FloatVid response: We don't store customer data
     const response = {
