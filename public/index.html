@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FloatVid Webhooks</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .status {
+            background: #f0f8f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .endpoint {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>FloatVid Webhook Endpoints</h1>
+    
+    <div class="status">
+        <h3>✅ Webhook Service Active</h3>
+        <p>All FloatVid webhook endpoints are operational and ready to receive Shopify webhook requests.</p>
+    </div>
+
+    <h3>Available Endpoints:</h3>
+    
+    <h4>Compliance Webhooks:</h4>
+    <div class="endpoint">/api/webhooks/customers-data-request</div>
+    <div class="endpoint">/api/webhooks/customers-redact</div>
+    <div class="endpoint">/api/webhooks/shop-redact</div>
+    
+    <h4>App Lifecycle Webhooks:</h4>
+    <div class="endpoint">/api/webhooks/app-uninstalled</div>
+    <div class="endpoint">/api/webhooks/scopes-update</div>
+
+    <p><strong>Note:</strong> These endpoints are designed for Shopify webhook requests only and require proper HMAC validation.</p>
+    
+    <hr>
+    <p><small>FloatVid Webhook Service - Powered by Netlify Functions</small></p>
+</body>
+</html>
