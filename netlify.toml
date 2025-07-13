@@ -1,0 +1,31 @@
+[build]
+  functions = "netlify/functions"
+  publish = "public"
+
+[[redirects]]
+  from = "/api/webhooks/customers-data-request"
+  to = "/.netlify/functions/customers-data-request"
+  status = 200
+
+[[redirects]]
+  from = "/api/webhooks/customers-redact"
+  to = "/.netlify/functions/customers-redact"
+  status = 200
+
+[[redirects]]
+  from = "/api/webhooks/shop-redact"
+  to = "/.netlify/functions/shop-redact"
+  status = 200
+
+[[redirects]]
+  from = "/api/webhooks/app-uninstalled"
+  to = "/.netlify/functions/app-uninstalled"
+  status = 200
+
+[[redirects]]
+  from = "/api/webhooks/scopes-update"
+  to = "/.netlify/functions/scopes-update"
+  status = 200
+
+[context.production.environment]
+  SHOPIFY_WEBHOOK_SECRET = "your-webhook-secret-here"
